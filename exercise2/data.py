@@ -1,24 +1,29 @@
 import math
+from typing import Callable
 
 
 class Sensor:
-    """Imaginary sensor. Produces values for velocity and acceleration."""
+    """Imaginary sensor. Produces values according to callable function."""
 
-    def __init__(self, step_size: int = 0.001) -> None:
+    def __init__(
+        self,
+        function: Callable,
+        name: str,
+        time_unit: str,
+        value_unit: str,
+        step_size: int = 0.01,
+    ) -> None:
+        self.name = name
+        self.time_unit = time_unit
+        self.value_unit = value_unit
         self.step_size = step_size
-        self.eta = 1e-6
         self.step = 0
+        self.f = function
 
     def read(self) -> None:
         """ Read current sensor values. """
-        lamda = lambda t: 5 * math.sin(2 * math.pi * t)
-        h = lambda t: 3 * math.pi * math.exp(-lamda(t))
-
-        velocity = h(self.step)
-        # numerical differentiation
-        acceleration = (h(self.step + self.eta) - h(self.step - self.eta)) / (
-            2 * self.eta
-        )
+        value = self.f(self.step)
+        time = self.step
 
         self.step += self.step_size
-        return self.step, velocity, acceleration
+        return time, value
