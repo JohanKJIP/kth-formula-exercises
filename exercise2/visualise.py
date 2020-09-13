@@ -60,6 +60,13 @@ class Visualiser(QtWidgets.QMainWindow):
         self.button_stop.clicked.connect(self.stop_record)
         self.button_stop.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
 
+        self.button_restart = QtWidgets.QPushButton("Restart")
+        self.buttons_row.addWidget(self.button_restart)
+        self.button_restart.clicked.connect(self.restart_record)
+        self.button_restart.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+
+        self.buttons_row.addSpacing(200)
+
         self.button_save = QtWidgets.QPushButton("Save")
         self.buttons_row.addWidget(self.button_save)
         self.button_save.clicked.connect(self.save_record)
@@ -75,12 +82,19 @@ class Visualiser(QtWidgets.QMainWindow):
         self.timer.timeout.connect(self.update_graph)
         self.timer.start()
 
-    def start_record(self) -> None:
-        """Start recording data from sensors."""
-        self.recording = True
+    def restart_record(self) -> None:
+        """Stop and restart the recording."""
+        self.stop_record()
+        self.recordings = []
         for sensor in self.sensors:
             data_recording = {"x": [], "y": []}
             self.recordings.append(data_recording)
+    
+    def start_record(self) -> None:
+        """Start recording data from sensors."""
+        if len(self.recordings) == 0:
+            self.restart_record()
+        self.recording = True
 
     def stop_record(self) -> None:
         """Stop recording data from sensors."""
@@ -88,7 +102,7 @@ class Visualiser(QtWidgets.QMainWindow):
 
     def save_record(self) -> None:
         """Save recorded data from sensors to csv file."""
-        if len(self.recordings) > 0:
+        if len(self.recordings) > 0 and len(self.recordings[0]['x']) > 0:
             options = QtWidgets.QFileDialog.Options()
             options |= QtWidgets.QFileDialog.DontUseNativeDialog
             file_name, _ = QtWidgets.QFileDialog.getSaveFileName(
@@ -162,7 +176,16 @@ def main():
         step_size=simulation_step_size,
     )
 
-    sensors = [velocity_sensor, acceleration_sensor]
+    constant = lambda t: 500
+    constant_sensor = Sensor(
+        constant,
+        "Constant sensor",
+        f"step ({simulation_step_size})",
+        "Units",
+        step_size=simulation_step_size,
+    )
+
+    sensors = [velocity_sensor, acceleration_sensor, constant_sensor]
 
     app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName("Visualiser")
