@@ -102,6 +102,7 @@ class Visualiser(QtWidgets.QMainWindow):
 
     def save_record(self) -> None:
         """Save recorded data from sensors to csv file."""
+        self.stop_record()
         if len(self.recordings) > 0 and len(self.recordings[0]['x']) > 0:
             options = QtWidgets.QFileDialog.Options()
             options |= QtWidgets.QFileDialog.DontUseNativeDialog
@@ -115,10 +116,10 @@ class Visualiser(QtWidgets.QMainWindow):
             if file_name:
                 self.recordings_to_csv(file_name)
         else:
-            message_box = QtWidgets.QMessageBox()
-            message_box.setIcon(QtWidgets.QMessageBox.Information)
-            message_box.setText("Problem saving: no data recorded.")
-            message_box.exec()
+            self.message_box = QtWidgets.QMessageBox()
+            self.message_box.setIcon(QtWidgets.QMessageBox.Information)
+            self.message_box.setText("Problem saving: no data recorded.")
+            self.message_box.exec()
 
     def recordings_to_csv(self, path: str) -> None:
         """Save recordings to a csv file"""
@@ -134,7 +135,7 @@ class Visualiser(QtWidgets.QMainWindow):
 
 
     def update_graph(self) -> None:
-
+        """Update graph and record values."""
         for i, (sensor, line) in enumerate(zip(self.sensors, self.lines)):
             t, value = sensor.read()
             line["x"].append(t)
