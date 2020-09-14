@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Int32, Float32
+from std_msgs.msg import UInt16, Float32
 
 last_data = None
 
@@ -14,7 +14,7 @@ def listen_and_publish(q=0.15):
     rospy.init_node("nodeB", anonymous=True)
 
     pub = rospy.Publisher("kthfs/result", Float32, queue_size=10)
-    rospy.Subscriber("von_hacht", Int32, callback)
+    rospy.Subscriber("von_hacht", UInt16, callback)
 
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():
