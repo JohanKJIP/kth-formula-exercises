@@ -89,25 +89,25 @@ class Visualiser(QtWidgets.QMainWindow):
         for sensor in self.sensors:
             data_recording = {"x": [], "y": []}
             self.recordings.append(data_recording)
-    
+
     def start_record(self) -> None:
         """Start recording data from sensors."""
         if len(self.recordings) == 0:
             self.restart_record()
         self.recording = True
-        self.button_record.setStyleSheet('QPushButton {background-color: #A3C1DA}')
-        self.button_record.setText('> Recording <')
+        self.button_record.setStyleSheet("QPushButton {background-color: #A3C1DA}")
+        self.button_record.setText("> Recording <")
 
     def stop_record(self) -> None:
         """Stop recording data from sensors."""
         self.recording = False
-        self.button_record.setStyleSheet('QPushButton {background-color: light gray}')
-        self.button_record.setText('Record')
+        self.button_record.setStyleSheet("QPushButton {background-color: light gray}")
+        self.button_record.setText("Record")
 
     def save_record(self) -> None:
         """Save recorded data from sensors to csv file."""
         self.stop_record()
-        if len(self.recordings) > 0 and len(self.recordings[0]['x']) > 0:
+        if len(self.recordings) > 0 and len(self.recordings[0]["x"]) > 0:
             options = QtWidgets.QFileDialog.Options()
             options |= QtWidgets.QFileDialog.DontUseNativeDialog
             file_name, _ = QtWidgets.QFileDialog.getSaveFileName(
@@ -126,17 +126,16 @@ class Visualiser(QtWidgets.QMainWindow):
             self.message_box.exec()
 
     def recordings_to_csv(self, path: str) -> None:
-        """Save recordings to a csv file"""
-        with open(path, 'w', newline="") as f:
+        """Save recordings to a csv file."""
+        with open(path, "w", newline="") as f:
             writer = csv.writer(f)
             # csv can only write rows
-            for i in range(0, len(self.recordings[0]['x'])):
+            for i in range(0, len(self.recordings[0]["x"])):
                 row = []
                 for recording in self.recordings:
-                    row.append(recording['x'][i])
-                    row.append(recording['y'][i])
+                    row.append(recording["x"][i])
+                    row.append(recording["y"][i])
                 writer.writerow(row)
-
 
     def update_graph(self) -> None:
         """Update graph and record values."""
