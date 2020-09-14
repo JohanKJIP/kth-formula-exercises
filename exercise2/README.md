@@ -2,7 +2,7 @@
 
 ## Overview
 
-I chose to interpret the function as a imaginary sensor that returns a value for a given time step t. In my code, I therefore have a `Sensor` object that returns data for time step t based on the lambda function it is initialised with. Such an approach allows the user to easily visualise any type of function, not just the one given in the exercise. Thanks to the modular nature of the visualiser, it is capable to visualise many functions at a time. Simply add a sensor to the `sensors` list that the `Visualise` object is initialised with. 
+I chose to interpret the function as an imaginary sensor that returns a value for a given time step t. In my code, I therefore have a `Sensor` object that returns data for time step t based on the lambda function it is initialised with. Such an approach allows the user to easily visualise any type of function, not just the one given in the exercise. Thanks to the modular nature of the visualiser, it is capable to visualise many functions at a time. Simply add a sensor to the `sensors` list that the `Visualise` object is initialised with. Adding too many sensor might be slow since the time step in its current form is very small. 
 
 In the application, it is also possible to start, stop and restart a recording of data. This data can then be saved to a csv file.
 
