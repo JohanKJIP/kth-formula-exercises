@@ -1,23 +1,26 @@
 import math
-from data import Sensor
-from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtGui import QCursor
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
 import csv
 import random
 import sys
 
+from PyQt5 import QtCore
+from PyQt5.QtGui import QCursor
+from PyQt5.QtWidgets import *
+from pyqtgraph import PlotWidget, plot
+import pyqtgraph as pg
 
-class Visualiser(QtWidgets.QMainWindow):
+from data import Sensor
+
+
+class Visualiser(QMainWindow):
     """Visualise data from sensors, requires sensor read() function."""
 
     def __init__(self, sensors: [Sensor], *args, **kwargs) -> None:
         super(Visualiser, self).__init__(*args, **kwargs)
         pg.setConfigOptions(antialias=True)
 
-        self.central_widget = QtWidgets.QWidget()
-        self.layout = QtWidgets.QVBoxLayout(self.central_widget)
+        self.central_widget = QWidget()
+        self.layout = QVBoxLayout(self.central_widget)
         self.setCentralWidget(self.central_widget)
 
         self.sensors = sensors
@@ -47,27 +50,27 @@ class Visualiser(QtWidgets.QMainWindow):
             self.lines.append(line)
 
         # Add buttons to layout
-        self.buttons_row = QtWidgets.QHBoxLayout()
+        self.buttons_row = QHBoxLayout()
         self.layout.addLayout(self.buttons_row)
 
-        self.button_record = QtWidgets.QPushButton("Record")
+        self.button_record = QPushButton("Record")
         self.buttons_row.addWidget(self.button_record)
         self.button_record.clicked.connect(self.start_record)
         self.button_record.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
 
-        self.button_stop = QtWidgets.QPushButton("Stop")
+        self.button_stop = QPushButton("Stop")
         self.buttons_row.addWidget(self.button_stop)
         self.button_stop.clicked.connect(self.stop_record)
         self.button_stop.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
 
-        self.button_restart = QtWidgets.QPushButton("Restart")
+        self.button_restart = QPushButton("Restart")
         self.buttons_row.addWidget(self.button_restart)
         self.button_restart.clicked.connect(self.restart_record)
         self.button_restart.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
 
         self.buttons_row.addSpacing(200)
 
-        self.button_save = QtWidgets.QPushButton("Save")
+        self.button_save = QPushButton("Save")
         self.buttons_row.addWidget(self.button_save)
         self.button_save.clicked.connect(self.save_record)
         self.button_save.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
@@ -108,9 +111,9 @@ class Visualiser(QtWidgets.QMainWindow):
         """Save recorded data from sensors to csv file."""
         self.stop_record()
         if len(self.recordings) > 0 and len(self.recordings[0]["x"]) > 0:
-            options = QtWidgets.QFileDialog.Options()
-            options |= QtWidgets.QFileDialog.DontUseNativeDialog
-            file_name, _ = QtWidgets.QFileDialog.getSaveFileName(
+            options = QFileDialog.Options()
+            options |= QFileDialog.DontUseNativeDialog
+            file_name, _ = QFileDialog.getSaveFileName(
                 self,
                 "QFileDialog.getSaveFileName()",
                 "",
@@ -120,8 +123,8 @@ class Visualiser(QtWidgets.QMainWindow):
             if file_name:
                 self.recordings_to_csv(file_name)
         else:
-            self.message_box = QtWidgets.QMessageBox()
-            self.message_box.setIcon(QtWidgets.QMessageBox.Information)
+            self.message_box = QMessageBox()
+            self.message_box.setIcon(QMessageBox.Information)
             self.message_box.setText("Problem saving: no data recorded.")
             self.message_box.exec()
 
@@ -191,7 +194,7 @@ def main():
 
     sensors = [velocity_sensor, acceleration_sensor, constant_sensor]
 
-    app = QtWidgets.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     app.setApplicationName("Visualiser")
     visualiser = Visualiser(sensors)
     visualiser.show()
