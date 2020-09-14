@@ -1,10 +1,11 @@
-from visualise import Visualiser
-from data import Sensor
-from PyQt5 import QtCore, QtWidgets
 import sys
 import os
 import pytest
 import csv
+
+from PyQt5 import QtCore, QtWidgets
+from visualise import Visualiser
+from data import Sensor
 
 
 class TestVisualise:
@@ -25,7 +26,7 @@ class TestVisualise:
         self.app.update_graph()
         assert len(self.app.recordings[0]["x"]) > 0
         assert len(self.app.recordings[0]["y"]) > 0
-        assert self.app.button_record.text() == '> Recording <'
+        assert self.app.button_record.text() == "> Recording <"
 
     def test_stop_recording(self, qtbot):
         qtbot.addWidget(self.app)
@@ -35,7 +36,7 @@ class TestVisualise:
         qtbot.mouseClick(self.app.button_stop, QtCore.Qt.LeftButton)
         # Expect recording to stop
         assert self.app.recording == False
-        assert self.app.button_record.text() == 'Record'
+        assert self.app.button_record.text() == "Record"
 
     def test_restart_recording(self, qtbot):
         qtbot.addWidget(self.app)
