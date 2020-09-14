@@ -95,10 +95,14 @@ class Visualiser(QtWidgets.QMainWindow):
         if len(self.recordings) == 0:
             self.restart_record()
         self.recording = True
+        self.button_record.setStyleSheet('QPushButton {background-color: #A3C1DA}')
+        self.button_record.setText('> Recording <')
 
     def stop_record(self) -> None:
         """Stop recording data from sensors."""
         self.recording = False
+        self.button_record.setStyleSheet('QPushButton {background-color: light gray}')
+        self.button_record.setText('Record')
 
     def save_record(self) -> None:
         """Save recorded data from sensors to csv file."""
