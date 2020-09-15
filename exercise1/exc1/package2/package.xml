@@ -2,18 +2,18 @@
 <package format="2">
   <name>package2</name>
   <version>0.0.0</version>
-  <description>The package2 package</description>
+  <description>Subscribes to the topic `/von_hacht` and modifies the data value by dividing it with a parameter `q`. The modified value is then published to `/kthfs/result`.</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="johvh@todo.todo">johvh</maintainer>
+  <maintainer email="johvh@kth.se">johvh</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>BSD</license>
 
 
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
